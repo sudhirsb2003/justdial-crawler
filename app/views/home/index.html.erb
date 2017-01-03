@@ -1,0 +1,6 @@
+<div class="container">
+<h1>Click on the following to search </h1><hr>
+<% Website.pluck(:website_name).uniq.each do |w|%>
+<%= link_to image_tag('jd3.gif'), 'spiders/justdial' %>
+<% end %>
+</div>

@@ -1,0 +1,9 @@
+	<tr>
+	<td><%= check_box_tag "get_ids[]", info.id, false, {:class => "checkbox"} %></td>
+		<td class="source"><%= info.website_name %></td>
+		<td><%= info.name %></td>
+		<td width='10%'><%= info.contact %></td>
+		<td><%= info.address %></td>
+		<!-- <td><%#= ["Exported", "New"].sample %></td> -->
+		<td><%= info.tags %></td>
+	</tr>

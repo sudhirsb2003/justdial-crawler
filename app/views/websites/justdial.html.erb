@@ -1,0 +1,90 @@
+<style type="text/css">
+.pull-right{
+	float: right;
+	margin-right: 30px;
+}
+.header{
+	padding-left: 50px; 
+	padding-right: 50px; 
+}
+.export_to{
+	margin-left: 50px;
+}
+</style>
+
+<script type="text/javascript">
+	
+$(document).ready(function(){
+
+  var $headcheckbox = $('.table-responsive #posts .text-purple input[type="checkbox"]');
+  var $checkboxes = $('.table-responsive #posts .post input[type="checkbox"]');
+
+  $('.select_all').on('click',function(){
+    $(".checkbox").prop('checked', $(this).prop("checked"));
+        // var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+        var countCheckedCheckboxes = $("input:checkbox:checked").length-1;
+        $('#checkboxcount').text(countCheckedCheckboxes + " rows selected.");
+      });
+
+  $('.checkbox ').on('click',function(){
+    if($('.checkbox:checked').length == $('.checkbox').length){
+      $('.select_all').prop('checked',true);
+    }else{
+      $('.select_all').prop('checked',false);
+    }
+    var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+    $('#checkboxcount').text(countCheckedCheckboxes + " rows selected.");
+  });
+});	
+
+</script>
+
+<nav class="header">
+	<h3 style="font-weight: 800;"><span class="text-primary">JUST</span><span class="text-danger">DIAL</span>
+	<%= form_tag justdial_path, class: "form-inline float-xs-right" do %>
+		<%= text_field_tag :url, '', placeholder: "Enter URL", required: true, class: "form-control", style: "margin-left:150px;width: 700px;" %>
+		<%= submit_tag "Fetch Data", class: "btn btn-primary" %>
+	<% end %></h3>
+</nav>
+<br>
+<br>
+<%= form_tag to_csv_path(format: "csv"), :method => :get do %>
+<% if @infos.present? %>
+	<span class="export_to">
+	<%= button_tag class: "btn btn-outline-success btn-sm" do %>
+		<%= fa_icon "download", base: "square-o" %>
+			Export to CSV
+		<% end %>
+	</span>
+	<span id="checkboxcount" class="pull-right label label-info"> 0 Selected</span>
+
+<table class="table table-condensed" id="hor-minimalist-b" summary="Employee Pay Sheet" style="width: auto;">
+	<thead>
+		<tr>
+			<th><input type="checkbox" id="selecctall" class="select_all" />	</th>
+			<th>Source</th>
+			<th>Name</th>
+			<th>Contact</th>
+			<th>Address</th>
+			<!-- <th>Status</th> -->
+			<th>Tags</th>
+		</tr>
+	</thead>
+<tbody>
+
+  <tbody class="page">
+<% @infos.each do |info| %>
+	<tr>
+	<td><%= check_box_tag "get_ids[]", info.id, false, {:class => "checkbox"} %></td>
+		<td class="source"><%= info.website_name %></td>
+		<td><%= info.name %></td>
+		<td width='10%'><%= info.contact %></td>
+		<td><%= info.address %></td>
+		<!-- <td><%#= ["Exported", "New"].sample %></td> -->
+		<td><%= info.tags %></td>
+	</tr>
+	<% end %>
+	<% end %>
+</tbody>
+</table>	
+<% end %>
